@@ -27,6 +27,7 @@ namespace SeaBattle
             serviceCollection.Configure<GameConfiguration>(domainConfiguration =>
             {
                 domainConfiguration.MapSize = 10;
+                domainConfiguration.ShipTypes = new[] { 5, 4, 4 };
             });
             serviceCollection.AddTransient<MainWindowViewModel>();
             serviceCollection.AddTransient<PlayerViewModel>();
