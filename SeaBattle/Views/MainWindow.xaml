@@ -192,7 +192,7 @@
                 Text="Winner"></TextBlock>
         </Border>
         <Border 
-            Visibility="{Binding Path=HumanPlayerViewModel.isWinner, Converter={StaticResource BoolToVis}}"
+            Visibility="{Binding Path=ComputerPlayerViewModel.isWinner, Converter={StaticResource BoolToVis}}"
             Background="White" 
             Opacity="0.5"
             Grid.Column="2"
