@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SeaBattle.Domain;
 using SeaBattle.Domain.Configuration;
@@ -23,12 +25,14 @@ namespace SeaBattle
 
         private ServiceProvider RegisterServices()
         {
+            var configBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            var configuration = configBuilder.Build();
+
             var serviceCollection = new ServiceCollection();
-            serviceCollection.Configure<GameConfiguration>(domainConfiguration =>
-            {
-                domainConfiguration.MapSize = 10;
-                domainConfiguration.ShipTypes = new[] { 5, 4, 4 };
-            });
+            serviceCollection.Configure<GameConfiguration>(configuration.GetSection("Game"));
             serviceCollection.AddTransient<MainWindowViewModel>();
             serviceCollection.AddTransient<PlayerViewModel>();
             serviceCollection.RegisterDomain();

@@ -48,7 +48,8 @@ namespace SeaBattle.Domain.UnitTests.Services.MapGeneration
             var gameConfiguration = new GameConfiguration
             {
                 MapSize = 3,
-                ShipTypes = new[] { 2 }
+                ShipTypes = new[] { 2 },
+                MapGeneratorMaxNumberOfRetries = 1
             };
 
             var mocker = new AutoMocker();

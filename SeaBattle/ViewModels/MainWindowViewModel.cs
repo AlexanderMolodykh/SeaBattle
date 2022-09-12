@@ -1,19 +1,23 @@
 ﻿using System.Threading.Tasks;
 using SeaBattle.Domain.Models;
 using System.Windows.Input;
+using Microsoft.Extensions.Options;
 using Prism.Commands;
 using Prism.Mvvm;
+using SeaBattle.Domain.Configuration;
 using SeaBattle.Domain.Exceptions;
 
 namespace SeaBattle.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
+        private readonly GameConfiguration _gameOptions;
         private bool _isMapGenerationError;
         private bool _isBlockedInput;
 
-        public MainWindowViewModel(PlayerViewModel humanPlayerViewModel, PlayerViewModel computerPlayerViewModel)
+        public MainWindowViewModel(PlayerViewModel humanPlayerViewModel, PlayerViewModel computerPlayerViewModel, IOptions<GameConfiguration> gameOptions)
         {
+            _gameOptions = gameOptions.Value;
             HumanPlayerViewModel = humanPlayerViewModel;
             ComputerPlayerViewModel = computerPlayerViewModel;
         }
@@ -67,7 +71,7 @@ namespace SeaBattle.ViewModels
                             IsBlockedInput = false;
                             return;
                         }
-                        Task.Delay(2000).ContinueWith(_ =>
+                        Task.Delay(_gameOptions.ComputerMoveDelay).ContinueWith(_ =>
                             {
                                 HumanPlayerViewModel.Fire(null);
                                 IsBlockedInput = false;
